@@ -3,7 +3,8 @@ const { validateToken } = require('../utils/auth');
 const validationInfoLogin = async (req, res, next) => {
     try {
  const { authorization } = req.headers;
-    validateToken(authorization);
+   const token = await validateToken(authorization);
+    console.log(token);
     return next();
 } catch (error) {
     console.log(error);

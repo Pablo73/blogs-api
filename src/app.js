@@ -1,12 +1,13 @@
 const express = require('express');
 
-const { loginRouter } = require('./routes');
+const { loginRouter, userRouter } = require('./routes');
 
 // ...
 
 const app = express();
 app.use(express.json());
 app.use('/login', loginRouter);
+app.use('/user', userRouter);
 
 // não remova ou mova esse endpoint
 app.get('/', (_request, response) => {
