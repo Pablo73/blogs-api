@@ -1,6 +1,6 @@
 const express = require('express');
 
-const loginController = require('../controllers/login.controller');
+const { userController } = require('../controllers');
 const { validationInfoLogin, tokenExist } = require('../middlewares/login.validation');
 const {
     validationUserDisplayName,
@@ -15,11 +15,11 @@ routers.post(
 validationUserDisplayName,
 validationUserEmail,
 validationUserPassword,
-loginController.postUser,
+userController.postUser,
 );
 
-routers.get('/', tokenExist, validationInfoLogin, loginController.getUser);
+routers.get('/', tokenExist, validationInfoLogin, userController.getUser);
 
-routers.get('/:id', tokenExist, validationInfoLogin, loginController.getUserId);
+routers.get('/:id', tokenExist, validationInfoLogin, userController.getUserId);
 
 module.exports = routers;
