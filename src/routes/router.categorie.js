@@ -16,4 +16,11 @@ validationCategorieName,
 categorieController.postCategorie,
 );
 
+routers.get(
+    '/', 
+    tokenExist,
+    validationInfoLogin, 
+    categorieController.getCategories,
+    );
+
 module.exports = routers;
