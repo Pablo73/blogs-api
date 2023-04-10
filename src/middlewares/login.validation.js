@@ -11,8 +11,7 @@ const tokenExist = async (req, res, next) => {
 const validationInfoLogin = async (req, res, next) => {
     try {
         const { authorization } = req.headers;
-        const token = await validateToken(authorization);
-        console.log(token);
+        await validateToken(authorization);
     return next();
 } catch (error) {
     console.log(error);

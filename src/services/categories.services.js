@@ -10,7 +10,7 @@ const getAllCategorie = async () => {
     return get;
 };
 
-    module.exports = {
-        newCategories,
-        getAllCategorie,
-    };
+module.exports = {
+    newCategories,
+    getAllCategorie,
+};
