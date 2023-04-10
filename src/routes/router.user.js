@@ -1,7 +1,7 @@
 const express = require('express');
 
 const loginController = require('../controllers/login.controller');
-const { validationInfoLogin } = require('../middlewares/login.validation');
+const { validationInfoLogin, tokenExist } = require('../middlewares/login.validation');
 const {
     validationUserDisplayName,
     validationUserEmail,
@@ -12,11 +12,14 @@ const routers = express.Router();
 
 routers.post(
 '/', 
-validationInfoLogin,
 validationUserDisplayName,
 validationUserEmail,
 validationUserPassword,
 loginController.postUser,
 );
+
+routers.get('/', tokenExist, validationInfoLogin, loginController.getUser);
+
+routers.get('/:id', tokenExist, validationInfoLogin, loginController.getUserId);
 
 module.exports = routers;

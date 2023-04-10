@@ -1,7 +1,14 @@
 const { User } = require('../models');
 
+const getAll = async () => { 
+  const get = await User.findAll(); 
+return get;
+};
+
 const getAlluser = async () => { 
-    const get = await User.findAll(); 
+    const get = await User.findAll({
+      attributes: ['id', 'displayName', 'email', 'image'],
+    }); 
   return get;
   };
 
@@ -14,7 +21,21 @@ const user = await User.create({
     return user;
 };
 
+const getUserWithId = async (id) => { 
+  const [getUserId] = await User.findAll({
+    where: { id },
+    attributes: ['id', 'displayName', 'email', 'image'],
+  }); 
+  console.log(getUserId);
+  if (!getUserId) {
+    return null;
+  }
+return getUserId;
+};
+
   module.exports = {
+    getAll,
     getAlluser,
     newUser,
+    getUserWithId,
 };

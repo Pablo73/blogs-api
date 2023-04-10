@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const secretPassword = process.env.JWT_SECRET || 'suaSenhaSecreta';
+const secretPassword = process.env.JWT_SECRET;
 
 const configJWT = {
     expiresIn: '8d',
@@ -13,10 +13,6 @@ const generateToken = async (payload) => {
 };
 
 const validateToken = async (token) => {
-  if (!token) {
-    console.log('Token is missing');
-    return ({ message: 'Token is missing' });
-  }
 const valid = await jwt.verify(token, secretPassword);
 return valid;
 };

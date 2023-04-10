@@ -12,7 +12,7 @@ const validationUserDisplayName = async (req, res, next) => {
 
 const validationUserEmail = async (req, res, next) => {
     const { email } = req.body;
-    const allUser = await usersServices.getAlluser();
+    const allUser = await usersServices.getAll();
 
     const validationEmail = (
         /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
