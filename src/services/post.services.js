@@ -50,13 +50,32 @@ const getPostWithUserAndCategoriesId = async (id) => {
     return get;
 };
 
-// const updataPost = async (idUser, title, content) => {
+const updataPost = async (id, idUser, title, content) => {
+    const getAllblogPost = await BlogPost.findAll({ 
+        attributes: ['user_id'] });
 
-// };
+    const isValidId = getAllblogPost[id].dataValues.user_id === idUser;
+
+    if (isValidId) {
+        await BlogPost.update({
+            title, content }, { where: { id } });
+            const [get] = await BlogPost.findAll({
+                where: { id },
+                attributes: { exclude: ['user_id'] },
+            include: [
+            { model: User, as: 'user', attributes: { exclude: ['password'] } },
+            { model: Category,
+as: 'categories', 
+            attributes: ['id', 'name'],
+through: { attributes: [] } }] });
+            return get;
+    }
+    return null;
+};
 
 module.exports = {
     addPost,
     getPostWithUserAndCategories,
     getPostWithUserAndCategoriesId,
-    // updataPost,
+    updataPost,
 };

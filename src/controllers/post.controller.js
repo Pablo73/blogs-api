@@ -43,9 +43,13 @@ const getPostId = async (req, res) => {
 const postId = async (req, res) => {
     const { title, content } = req.body;
     const { authorization } = req.headers;
+    const { id } = req.params;
     const idUser = await idUserLog(authorization);
     try {
-        const post = await postServices.updataPost(idUser, title, content);
+        const post = await postServices.updataPost(id, idUser, title, content);
+        if (!post) {
+            return res.status(401).json({ message: 'Unauthorized user' });
+        }
         return res.status(200).json(post);
     } catch (error) { 
         console.log(error);
