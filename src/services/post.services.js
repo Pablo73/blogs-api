@@ -8,14 +8,15 @@ const addPost = async (title, content, categoryIds, authorization) => {
 
     const categoryIsValid = categoryIds.map((ele) => 
     getCategory.some((id) => id.dataValues.id === +ele));
-   
+    console.log(categoryIsValid);
+
     const isTrueId = categoryIsValid.every((ele) => ele === true);
 
     if (!isTrueId) {
         return null;
     }
-    
-    const getIdUser = getUser.filter((ele) => ele.dataValues.email === getEmail.email);
+
+     const getIdUser = getUser.filter((ele) => ele.dataValues.email === getEmail.email);
     const idUser = +getIdUser[0].dataValues.id;
 
     const post = await BlogPost.create({ title, content, userId: idUser });
@@ -49,8 +50,13 @@ const getPostWithUserAndCategoriesId = async (id) => {
     return get;
 };
 
+// const updataPost = async (idUser, title, content) => {
+
+// };
+
 module.exports = {
     addPost,
     getPostWithUserAndCategories,
     getPostWithUserAndCategoriesId,
+    // updataPost,
 };
