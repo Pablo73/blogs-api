@@ -28,6 +28,17 @@ const addPost = async (title, content, categoryIds, authorization) => {
     return post;
 };
 
+const getPostWithUserAndCategories = async () => {
+    const get = await BlogPost.findAll({
+        attributes: { exclude: ['user_id'] },
+    include: [
+    { model: User, as: 'user', attributes: { exclude: ['password'] } },
+    { model: Category, as: 'categories', attributes: ['id', 'name'], through: { attributes: [] } },
+] });
+    return get;
+};
+
 module.exports = {
     addPost,
+    getPostWithUserAndCategories,
 };

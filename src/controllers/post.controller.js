@@ -12,6 +12,17 @@ const postPost = async (req, res) => {
     } catch (error) { return res.status(500).json({ message: 'internal error' }); }
 };
 
+const getPost = async (_req, res) => {
+    try {
+        const post = await postServices.getPostWithUserAndCategories();
+        return res.status(200).json(post);
+    } catch (error) { 
+        console.log(error);
+        return res.status(500).json({ message: 'internal error' });
+     }
+};
+
 module.exports = {
     postPost,
+    getPost,
 };

@@ -20,4 +20,6 @@ validateCategoryIds,
 postController.postPost,
 );
 
+routers.get('/', tokenExist, validationInfoLogin, postController.getPost);
+
 module.exports = routers;
