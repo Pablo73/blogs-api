@@ -21,5 +21,6 @@ postController.postPost,
 );
 
 routers.get('/', tokenExist, validationInfoLogin, postController.getPost);
+routers.get('/:id', tokenExist, validationInfoLogin, postController.getPostId);
 
 module.exports = routers;

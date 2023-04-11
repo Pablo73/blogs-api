@@ -38,7 +38,19 @@ const getPostWithUserAndCategories = async () => {
     return get;
 };
 
+const getPostWithUserAndCategoriesId = async (id) => {
+    const [get] = await BlogPost.findAll({
+        where: { id },
+        attributes: { exclude: ['user_id'] },
+    include: [
+    { model: User, as: 'user', attributes: { exclude: ['password'] } },
+    { model: Category, as: 'categories', attributes: ['id', 'name'], through: { attributes: [] } },
+] });
+    return get;
+};
+
 module.exports = {
     addPost,
     getPostWithUserAndCategories,
+    getPostWithUserAndCategoriesId,
 };
