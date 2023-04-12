@@ -53,10 +53,9 @@ const getPostWithUserAndCategoriesId = async (id) => {
 const updataPost = async (id, idUser, title, content) => {
     const getAllblogPost = await BlogPost.findAll({ 
         attributes: ['user_id'] });
-
     const isValidId = getAllblogPost[id].dataValues.user_id === idUser;
 
-    if (isValidId) {
+    if (isValidId) { 
         await BlogPost.update({
             title, content }, { where: { id } });
             const [get] = await BlogPost.findAll({
@@ -73,9 +72,23 @@ through: { attributes: [] } }] });
     return null;
 };
 
+const deletePost = async (id, idUser) => {
+    const getAllblogPost = await BlogPost.findAll({ 
+        attributes: ['user_id'],
+     });
+       const validUser = getAllblogPost.some((ele) => +ele.dataValues.user_id === +idUser);
+
+    if (validUser) { 
+        const removed = await BlogPost.destroy({ where: { id } }); 
+        return removed;
+    }
+    return null;
+};
+
 module.exports = {
     addPost,
     getPostWithUserAndCategories,
     getPostWithUserAndCategoriesId,
     updataPost,
+    deletePost,
 };

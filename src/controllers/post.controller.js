@@ -1,6 +1,8 @@
 const { postServices } = require('../services');
 const { idUserLog } = require('../utils/auth');
 
+const MESSAGE_ERRO = { message: 'internal error' };
+
 const postPost = async (req, res) => {
     const { title, content, categoryIds } = req.body;
     const { authorization } = req.headers;
@@ -12,7 +14,7 @@ const postPost = async (req, res) => {
         return res.status(201).json(post);
     } catch (error) { 
         console.log(error);
-        return res.status(500).json({ message: 'internal error' }); 
+        return res.status(500).json(MESSAGE_ERRO); 
     }
 };
 
@@ -22,7 +24,7 @@ const getPost = async (_req, res) => {
         return res.status(200).json(post);
     } catch (error) { 
         console.log(error);
-        return res.status(500).json({ message: 'internal error' });
+        return res.status(500).json(MESSAGE_ERRO);
      }
 };
 
@@ -36,7 +38,7 @@ const getPostId = async (req, res) => {
         return res.status(200).json(post);
     } catch (error) { 
         console.log(error);
-        return res.status(500).json({ message: 'internal error' });
+        return res.status(500).json(MESSAGE_ERRO);
      }
 };
 
@@ -53,7 +55,27 @@ const postId = async (req, res) => {
         return res.status(200).json(post);
     } catch (error) { 
         console.log(error);
-        return res.status(500).json({ message: 'internal error' });
+        return res.status(500).json(MESSAGE_ERRO);
+     }
+};
+
+const deletePostId = async (req, res) => {
+    const { authorization } = req.headers;
+    const { id } = req.params;
+    const idUser = await idUserLog(authorization);
+    try {
+        const post = await postServices.deletePost(id, idUser);
+
+        if (post === 0) {
+            return res.status(404).json({ message: 'Post does not exist' });
+        }
+        if (post === null) {
+            return res.status(401).json({ message: 'Unauthorized user' });
+        }
+        return res.status(204).json(post);
+    } catch (error) { 
+        console.log(error);
+        return res.status(500).json(MESSAGE_ERRO);
      }
 };
 
@@ -62,4 +84,5 @@ module.exports = {
     getPost,
     getPostId,
     postId,
+    deletePostId,
 };
