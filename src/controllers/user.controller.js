@@ -38,11 +38,7 @@ const deleteUserId = async (req, res) => {
     const idUser = await idUserLog(authorization);
     try {
         const post = await usersServices.deleteUser(idUser);
-        
-        if (post === null) {
-            return res.status(401).json({ message: 'Unauthorized user' });
-        }
-        return res.status(204).json();
+        return res.status(204).json(post);
     } catch (error) { 
         console.log(error);
         return res.status(500).json(MESSAGE_ERRO);

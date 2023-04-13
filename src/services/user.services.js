@@ -34,11 +34,6 @@ return getUserId;
 };
 
 const deleteUser = async (idUser) => {
-  const getAllblogUser = await User.findOne({ where: { id: idUser } });
-
-  if (!getAllblogUser) {
-      return null;
-  }
       const removed = await User.destroy({ where: { id: idUser } }); 
       return removed;
 };
