@@ -44,6 +44,7 @@ const deleteUserId = async (req, res) => {
         return res.status(500).json(MESSAGE_ERRO);
     }
 };
+
 module.exports = {
     getUser,
     getUserId,

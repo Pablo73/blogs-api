@@ -79,10 +79,25 @@ const deletePostId = async (req, res) => {
      }
 };
 
+const searchPost = async (req, res) => {
+    const { q } = req.query;
+    try {
+    const search = await postServices.searchQuery(q);
+    if (search[0] === undefined) {
+        return res.status(200).json([]);
+    }
+    return res.status(200).json(search);
+} catch (error) { 
+    console.log(error);
+    return res.status(500).json(MESSAGE_ERRO);
+ }
+};
+
 module.exports = {
     postPost,
     getPost,
     getPostId,
     postId,
     deletePostId,
+    searchPost,
 };

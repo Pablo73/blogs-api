@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const { User, PostCategory, BlogPost, Category } = require('../models');
 const { validateToken } = require('../utils/auth');
 
@@ -63,9 +64,9 @@ const updataPost = async (id, idUser, title, content) => {
             include: [
             { model: User, as: 'user', attributes: { exclude: ['password'] } },
             { model: Category,
-as: 'categories', 
-            attributes: ['id', 'name'],
-through: { attributes: [] } }] });
+              as: 'categories', 
+              attributes: ['id', 'name'],
+              through: { attributes: [] } }] });
             return get;
     }
     return null;
@@ -85,10 +86,33 @@ const deletePost = async (id, idUser) => {
     return null;
 };
 
+const searchQuery = async (q) => {
+    if (!q) {
+        const all = await getPostWithUserAndCategories();
+        return all;
+    }
+    const [getSearch] = await BlogPost.findAll({
+        where: { [Op.or]: [{ title: { [Op.like]: `%${q}%` } },
+                { content: { [Op.like]: `%${q}%` } },
+            ] },
+        include: [
+            { model: User, 
+                as: 'user', 
+                attributes: { exclude: ['password'] } },
+            { model: Category,
+                 as: 'categories', 
+                 attributes: ['id', 'name'],
+                 through: { attributes: [] } }] });
+
+console.log([getSearch]);
+    return [getSearch];
+};
+
 module.exports = {
     addPost,
     getPostWithUserAndCategories,
     getPostWithUserAndCategoriesId,
     updataPost,
     deletePost,
+    searchQuery,
 };
