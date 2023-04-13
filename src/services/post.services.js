@@ -8,7 +8,6 @@ const addPost = async (title, content, categoryIds, authorization) => {
 
     const categoryIsValid = categoryIds.map((ele) => 
     getCategory.some((id) => id.dataValues.id === +ele));
-    console.log(categoryIsValid);
 
     const isTrueId = categoryIsValid.every((ele) => ele === true);
 
@@ -73,10 +72,11 @@ through: { attributes: [] } }] });
 };
 
 const deletePost = async (id, idUser) => {
-    const getAllblogPost = await BlogPost.findAll({ 
-        attributes: ['user_id'],
-     });
-       const validUser = getAllblogPost.some((ele) => +ele.dataValues.user_id === +idUser);
+    const getAllblogPost = await BlogPost.findOne({ where: { id } });
+    if (!getAllblogPost) {
+        return 0;
+    }
+        const validUser = getAllblogPost.dataValues.userId === idUser;
 
     if (validUser) { 
         const removed = await BlogPost.destroy({ where: { id } }); 
