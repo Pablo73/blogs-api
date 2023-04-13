@@ -22,4 +22,6 @@ routers.get('/', tokenExist, validationInfoLogin, userController.getUser);
 
 routers.get('/:id', tokenExist, validationInfoLogin, userController.getUserId);
 
+routers.delete('/me', tokenExist, validationInfoLogin, userController.deleteUserId);
+
 module.exports = routers;

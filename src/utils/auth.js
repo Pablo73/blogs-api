@@ -15,16 +15,18 @@ const generateToken = async (payload) => {
 };
 
 const validateToken = async (token) => {
-const valid = await jwt.verify(token, secretPassword);
-return valid;
+  const valid = await jwt.verify(token, secretPassword);
+  return valid;
 };
 
 const idUserLog = async (authorization) => {
-const getEmail = await validateToken(authorization);
-const getUser = await getAll();
-const getIdUser = getUser.filter((ele) => ele.dataValues.email === getEmail.email);
-const idUser = getIdUser[0].dataValues.id;
-return idUser;
+  const getEmail = await validateToken(authorization);
+  const getUser = await getAll();
+  const getIdUser = getUser.filter((ele) => ele.dataValues.email === getEmail.email);
+  if (getIdUser.length !== 0) {
+    const idUser = getIdUser[0].dataValues.id;
+    return idUser;
+  }
 };
 
 module.exports = {

@@ -72,7 +72,7 @@ const deletePostId = async (req, res) => {
         if (post === null) {
             return res.status(401).json({ message: 'Unauthorized user' });
         }
-        return res.status(204).json(post);
+        return res.status(204).json();
     } catch (error) { 
         console.log(error);
         return res.status(500).json(MESSAGE_ERRO);
