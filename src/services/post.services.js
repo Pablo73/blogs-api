@@ -92,8 +92,9 @@ const searchQuery = async (q) => {
         return all;
     }
     const [getSearch] = await BlogPost.findAll({
-        where: { [Op.or]: [{ title: { [Op.like]: `%${q}%` } },
-                { content: { [Op.like]: `%${q}%` } },
+        where: { [Op.or]: [
+            { title: { [Op.like]: `%${q}%` } },
+            { content: { [Op.like]: `%${q}%` } },
             ] },
         include: [
             { model: User, 
@@ -103,8 +104,6 @@ const searchQuery = async (q) => {
                  as: 'categories', 
                  attributes: ['id', 'name'],
                  through: { attributes: [] } }] });
-
-console.log([getSearch]);
     return [getSearch];
 };
 
